@@ -54,7 +54,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-fim-B
-  DevSubnetFIMB:
+  DevSubnetFIMC:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref DEVVPC
@@ -164,7 +164,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-fim-B
-  QASubnetFIMB:
+  QASubnetFIMC:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref QAVPC
@@ -274,7 +274,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-fim-B
-  ProdSubnetFIMB:
+  ProdSubnetFIMC:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref PRODVPC
