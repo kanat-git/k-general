@@ -1,6 +1,6 @@
 
 AWSTemplateFormatVersion: 2010-09-09
-Description:  Cloudformation template to create the DEV VPC and 12 subnets. Designed to skip ahead to this point in the course. When applying this template you will be ready to complete the DEMO lesson Configuring A4l public subnets and Jumpbox. 
+Description:  Cloudformation template to create the DEV, QA and PROD VPCs and 12 subnets for each ENV (total 36) in THREE AZ. The DMZ subnets tend to be a public which needs to be configured. 
 Metadata:
   LICENSE: Apache License Version 2.0
 Resources:
@@ -364,3 +364,4 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-dmz-C
+          
