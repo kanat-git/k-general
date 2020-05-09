@@ -36,7 +36,7 @@ Resources:
           Value: prod-vpc
   
   # DEV Subnets
-  SubnetFIMA:
+  DevSubnetFIMA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref DEVVPC
@@ -45,7 +45,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-fim-A
-  SubnetFIMB:
+  DevSubnetFIMB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref DEVVPC
@@ -54,7 +54,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-fim-B
-  SubnetFIMC:
+  DevSubnetFIMB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref DEVVPC
@@ -63,7 +63,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-fim-C
-  SubnetSIEMA:
+  DevSubnetSIEMA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref DEVVPC
@@ -72,7 +72,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-siem-A
-  SubnetSIEMB:
+  DevSubnetSIEMB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref DEVVPC
@@ -81,7 +81,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-siem-B
-  SubnetSIEMC:
+  DevSubnetSIEMC:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref DEVVPC
@@ -90,7 +90,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-siem-C
-  SubnetNFTAA:
+  QASubnetNFTAA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref DEVVPC
@@ -99,7 +99,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-nfta-A
-  SubnetNFTAB:
+  DevSubnetNFTAB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref DEVVPC
@@ -108,7 +108,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-nfta-B
-  SubnetNFTAC:
+  DevSubnetNFTAC:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref DEVVPC
@@ -117,7 +117,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-nfta-C
-  SubnetDMZA:
+  DevSubnetDMZA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref DEVVPC
@@ -126,7 +126,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-dmz-A
-  SubnetDMZB:
+  QASubnetDMZB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref DEVVPC
@@ -135,7 +135,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-dmz-B
-  SubnetDMZC:
+  DevSubnetDMZC:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref DEVVPC
@@ -146,7 +146,7 @@ Resources:
           Value: sn-dmz-C
   
   # QA Subnets
-  SubnetFIMA:
+  QASubnetFIMA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref QAVPC
@@ -155,7 +155,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-fim-A
-  SubnetFIMB:
+  QASubnetFIMB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref QAVPC
@@ -164,7 +164,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-fim-B
-  SubnetFIMC:
+  QASubnetFIMB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref QAVPC
@@ -173,7 +173,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-fim-C
-  SubnetSIEMA:
+  QASubnetSIEMA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref QAVPC
@@ -182,7 +182,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-siem-A
-  SubnetSIEMB:
+  QASubnetSIEMB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref QAVPC
@@ -191,7 +191,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-siem-B
-  SubnetSIEMC:
+  QASubnetSIEMC:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref QAVPC
@@ -200,7 +200,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-siem-C
-  SubnetNFTAA:
+  ProdSubnetNFTAA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref QAVPC
@@ -209,7 +209,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-nfta-A
-  SubnetNFTAB:
+  QASubnetNFTAB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref QAVPC
@@ -218,7 +218,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-nfta-B
-  SubnetNFTAC:
+  QASubnetNFTAC:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref QAVPC
@@ -227,7 +227,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-nfta-C
-  SubnetDMZA:
+  QASubnetDMZA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref QAVPC
@@ -236,7 +236,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-dmz-A
-  SubnetDMZB:
+  ProdSubnetDMZB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref QAVPC
@@ -245,7 +245,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-dmz-B
-  SubnetDMZC:
+  QASubnetDMZC:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref QAVPC
@@ -256,7 +256,7 @@ Resources:
           Value: sn-dmz-C
 
   # PROD Subnets
-  SubnetFIMA:
+  ProdSubnetFIMA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref PRODVPC
@@ -265,7 +265,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-fim-A
-  SubnetFIMB:
+  ProdSubnetFIMB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref PRODVPC
@@ -274,7 +274,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-fim-B
-  SubnetFIMC:
+  ProdSubnetFIMB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref PRODVPC
@@ -283,7 +283,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-fim-C
-  SubnetSIEMA:
+  ProdSubnetSIEMA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref PRODVPC
@@ -292,7 +292,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-siem-A
-  SubnetSIEMB:
+  ProdSubnetSIEMB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref PRODVPC
@@ -301,7 +301,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-siem-B
-  SubnetSIEMC:
+  ProdSubnetSIEMC:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref PRODVPC
@@ -310,7 +310,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-siem-C
-  SubnetNFTAA:
+  DevSubnetNFTAA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref PRODVPC
@@ -319,7 +319,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-nfta-A
-  SubnetNFTAB:
+  ProdSubnetNFTAB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref PRODVPC
@@ -328,7 +328,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-nfta-B
-  SubnetNFTAC:
+  ProdSubnetNFTAC:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref PRODVPC
@@ -337,7 +337,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-nfta-C
-  SubnetDMZA:
+  ProdSubnetDMZA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref PRODVPC
@@ -346,7 +346,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-dmz-A
-  SubnetDMZB:
+  DevSubnetDMZB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref PRODVPC
@@ -355,7 +355,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-dmz-B
-  SubnetDMZC:
+  ProdSubnetDMZC:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref PRODVPC
