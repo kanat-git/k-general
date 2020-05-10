@@ -1,6 +1,6 @@
 
 AWSTemplateFormatVersion: 2010-09-09
-Description:  Cloudformation template to create the DEV, QA and PROD VPCs and 12 subnets for each ENV (total 36) in THREE AZ. The DMZ subnets tend to be a public which needs to be configured. 
+Description:  Cloudformation template to create the DEV, QA and PROD VPCs and 12 subnets for each ENV (total 36) in THREE AZ in GENERAL ACCOUNT. The DMZ subnets tend to be a public which needs to be configured. 
 Metadata:
   LICENSE: Apache License Version 2.0
 Resources:
@@ -90,7 +90,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-siem-C
-  QASubnetNFTAA:
+  DevSubnetNFTAA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref DEVVPC
@@ -126,7 +126,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-dmz-A
-  QASubnetDMZB:
+  DevSubnetDMZB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref DEVVPC
@@ -200,7 +200,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-siem-C
-  ProdSubnetNFTAA:
+  QASubnetNFTAA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref QAVPC
@@ -236,7 +236,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-dmz-A
-  ProdSubnetDMZB:
+  QASubnetDMZB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref QAVPC
@@ -310,7 +310,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-siem-C
-  DevSubnetNFTAA:
+  ProdSubnetNFTAA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref PRODVPC
@@ -346,7 +346,7 @@ Resources:
       Tags:
         - Key: Name
           Value: sn-dmz-A
-  DevSubnetDMZB:
+  ProdSubnetDMZB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref PRODVPC

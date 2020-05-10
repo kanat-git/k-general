@@ -1,6 +1,6 @@
 
 AWSTemplateFormatVersion: 2010-09-09
-Description:  Cloudformation template to create the DEV, QA and PROD VPCs and 12 subnets for each ENV (total 36) in THREE AZ. The DMZ subnets tend to be a public which needs to be configured. 
+Description:  Cloudformation template to create the DEV, QA and PROD VPCs and 12 subnets for each ENV (total 36) in THREE AZ in PROD Account. The DMZ subnets tend to be a public which needs to be configured. 
 Metadata:
   LICENSE: Apache License Version 2.0
 Resources:
@@ -8,7 +8,7 @@ Resources:
   DEVVPC:
     Type: AWS::EC2::VPC
     Properties:
-      CidrBlock: 10.20.0.0/16
+      CidrBlock: 10.40.0.0/16
       EnableDnsSupport: true
       EnableDnsHostnames: true
       Tags:
@@ -18,7 +18,7 @@ Resources:
   QAVPC:
     Type: AWS::EC2::VPC
     Properties:
-      CidrBlock: 10.21.0.0/16
+      CidrBlock: 10.41.0.0/16
       EnableDnsSupport: true
       EnableDnsHostnames: true
       Tags:
@@ -28,7 +28,7 @@ Resources:
   PRODVPC:
     Type: AWS::EC2::VPC
     Properties:
-      CidrBlock: 10.22.0.0/16
+      CidrBlock: 10.42.0.0/16
       EnableDnsSupport: true
       EnableDnsHostnames: true
       Tags:
@@ -195,7 +195,7 @@ Resources:
     Properties:
       VpcId: !Ref DEVVPC
       AvailabilityZone: !Select [ 0, !GetAZs '' ]
-      CidrBlock: 10.20.0.0/20
+      CidrBlock: 10.40.0.0/20
       Tags:
         - Key: Name
           Value: sn-fim-A
@@ -204,7 +204,7 @@ Resources:
     Properties:
       VpcId: !Ref DEVVPC
       AvailabilityZone: !Select [ 1, !GetAZs '' ]
-      CidrBlock: 10.20.64.0/20
+      CidrBlock: 10.40.64.0/20
       Tags:
         - Key: Name
           Value: sn-fim-B
@@ -213,7 +213,7 @@ Resources:
     Properties:
       VpcId: !Ref DEVVPC
       AvailabilityZone: !Select [ 2, !GetAZs '' ]
-      CidrBlock: 10.20.128.0/20
+      CidrBlock: 10.40.128.0/20
       Tags:
         - Key: Name
           Value: sn-fim-C
@@ -222,7 +222,7 @@ Resources:
     Properties:
       VpcId: !Ref DEVVPC
       AvailabilityZone: !Select [ 0, !GetAZs '' ]
-      CidrBlock: 10.20.16.0/20
+      CidrBlock: 10.40.16.0/20
       Tags:
         - Key: Name
           Value: sn-siem-A
@@ -231,7 +231,7 @@ Resources:
     Properties:
       VpcId: !Ref DEVVPC
       AvailabilityZone: !Select [ 1, !GetAZs '' ]
-      CidrBlock: 10.20.80.0/20
+      CidrBlock: 10.40.80.0/20
       Tags:
         - Key: Name
           Value: sn-siem-B
@@ -240,16 +240,16 @@ Resources:
     Properties:
       VpcId: !Ref DEVVPC
       AvailabilityZone: !Select [ 2, !GetAZs '' ]
-      CidrBlock: 10.20.144.0/20
+      CidrBlock: 10.40.144.0/20
       Tags:
         - Key: Name
           Value: sn-siem-C
-  QASubnetNFTAA:
+  DevSubnetNFTAA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref DEVVPC
       AvailabilityZone: !Select [ 0, !GetAZs '' ]
-      CidrBlock: 10.20.32.0/20
+      CidrBlock: 10.40.32.0/20
       Tags:
         - Key: Name
           Value: sn-nfta-A
@@ -258,7 +258,7 @@ Resources:
     Properties:
       VpcId: !Ref DEVVPC
       AvailabilityZone: !Select [ 1, !GetAZs '' ]
-      CidrBlock: 10.20.96.0/20
+      CidrBlock: 10.40.96.0/20
       Tags:
         - Key: Name
           Value: sn-nfta-B
@@ -267,7 +267,7 @@ Resources:
     Properties:
       VpcId: !Ref DEVVPC
       AvailabilityZone: !Select [ 2, !GetAZs '' ]
-      CidrBlock: 10.20.160.0/20
+      CidrBlock: 10.40.160.0/20
       Tags:
         - Key: Name
           Value: sn-nfta-C
@@ -276,17 +276,17 @@ Resources:
     Properties:
       VpcId: !Ref DEVVPC
       AvailabilityZone: !Select [ 0, !GetAZs '' ]
-      CidrBlock: 10.20.48.0/25
+      CidrBlock: 10.40.48.0/25
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
           Value: sn-dmz-A
-  QASubnetDMZB:
+  DevSubnetDMZB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref DEVVPC
       AvailabilityZone: !Select [ 1, !GetAZs '' ]
-      CidrBlock: 10.20.112.0/25
+      CidrBlock: 10.40.112.0/25
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
@@ -296,7 +296,7 @@ Resources:
     Properties:
       VpcId: !Ref DEVVPC
       AvailabilityZone: !Select [ 2, !GetAZs '' ]
-      CidrBlock: 10.20.176.0/25
+      CidrBlock: 10.40.176.0/25
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
@@ -308,7 +308,7 @@ Resources:
     Properties:
       VpcId: !Ref QAVPC
       AvailabilityZone: !Select [ 0, !GetAZs '' ]
-      CidrBlock: 10.21.0.0/20
+      CidrBlock: 10.41.0.0/20
       Tags:
         - Key: Name
           Value: sn-fim-A
@@ -317,7 +317,7 @@ Resources:
     Properties:
       VpcId: !Ref QAVPC
       AvailabilityZone: !Select [ 1, !GetAZs '' ]
-      CidrBlock: 10.21.64.0/20
+      CidrBlock: 10.41.64.0/20
       Tags:
         - Key: Name
           Value: sn-fim-B
@@ -326,7 +326,7 @@ Resources:
     Properties:
       VpcId: !Ref QAVPC
       AvailabilityZone: !Select [ 2, !GetAZs '' ]
-      CidrBlock: 10.21.128.0/20
+      CidrBlock: 10.41.128.0/20
       Tags:
         - Key: Name
           Value: sn-fim-C
@@ -335,7 +335,7 @@ Resources:
     Properties:
       VpcId: !Ref QAVPC
       AvailabilityZone: !Select [ 0, !GetAZs '' ]
-      CidrBlock: 10.21.16.0/20
+      CidrBlock: 10.41.16.0/20
       Tags:
         - Key: Name
           Value: sn-siem-A
@@ -344,7 +344,7 @@ Resources:
     Properties:
       VpcId: !Ref QAVPC
       AvailabilityZone: !Select [ 1, !GetAZs '' ]
-      CidrBlock: 10.21.80.0/20
+      CidrBlock: 10.41.80.0/20
       Tags:
         - Key: Name
           Value: sn-siem-B
@@ -353,16 +353,16 @@ Resources:
     Properties:
       VpcId: !Ref QAVPC
       AvailabilityZone: !Select [ 2, !GetAZs '' ]
-      CidrBlock: 10.21.144.0/20
+      CidrBlock: 10.41.144.0/20
       Tags:
         - Key: Name
           Value: sn-siem-C
-  ProdSubnetNFTAA:
+  QASubnetNFTAA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref QAVPC
       AvailabilityZone: !Select [ 0, !GetAZs '' ]
-      CidrBlock: 10.21.32.0/20
+      CidrBlock: 10.41.32.0/20
       Tags:
         - Key: Name
           Value: sn-nfta-A
@@ -371,7 +371,7 @@ Resources:
     Properties:
       VpcId: !Ref QAVPC
       AvailabilityZone: !Select [ 1, !GetAZs '' ]
-      CidrBlock: 10.21.96.0/20
+      CidrBlock: 10.41.96.0/20
       Tags:
         - Key: Name
           Value: sn-nfta-B
@@ -380,7 +380,7 @@ Resources:
     Properties:
       VpcId: !Ref QAVPC
       AvailabilityZone: !Select [ 2, !GetAZs '' ]
-      CidrBlock: 10.21.160.0/20
+      CidrBlock: 10.41.160.0/20
       Tags:
         - Key: Name
           Value: sn-nfta-C
@@ -389,17 +389,17 @@ Resources:
     Properties:
       VpcId: !Ref QAVPC
       AvailabilityZone: !Select [ 0, !GetAZs '' ]
-      CidrBlock: 10.21.48.0/25
+      CidrBlock: 10.41.48.0/25
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
           Value: sn-dmz-A
-  ProdSubnetDMZB:
+  QASubnetDMZB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref QAVPC
       AvailabilityZone: !Select [ 1, !GetAZs '' ]
-      CidrBlock: 10.21.112.0/25
+      CidrBlock: 10.41.112.0/25
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
@@ -409,7 +409,7 @@ Resources:
     Properties:
       VpcId: !Ref QAVPC
       AvailabilityZone: !Select [ 2, !GetAZs '' ]
-      CidrBlock: 10.21.176.0/25
+      CidrBlock: 10.41.176.0/25
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
@@ -421,7 +421,7 @@ Resources:
     Properties:
       VpcId: !Ref PRODVPC
       AvailabilityZone: !Select [ 0, !GetAZs '' ]
-      CidrBlock: 10.22.0.0/20
+      CidrBlock: 10.42.0.0/20
       Tags:
         - Key: Name
           Value: sn-fim-A
@@ -430,7 +430,7 @@ Resources:
     Properties:
       VpcId: !Ref PRODVPC
       AvailabilityZone: !Select [ 1, !GetAZs '' ]
-      CidrBlock: 10.22.64.0/20
+      CidrBlock: 10.42.64.0/20
       Tags:
         - Key: Name
           Value: sn-fim-B
@@ -439,7 +439,7 @@ Resources:
     Properties:
       VpcId: !Ref PRODVPC
       AvailabilityZone: !Select [ 2, !GetAZs '' ]
-      CidrBlock: 10.22.128.0/20
+      CidrBlock: 10.42.128.0/20
       Tags:
         - Key: Name
           Value: sn-fim-C
@@ -448,7 +448,7 @@ Resources:
     Properties:
       VpcId: !Ref PRODVPC
       AvailabilityZone: !Select [ 0, !GetAZs '' ]
-      CidrBlock: 10.22.16.0/20
+      CidrBlock: 10.42.16.0/20
       Tags:
         - Key: Name
           Value: sn-siem-A
@@ -457,7 +457,7 @@ Resources:
     Properties:
       VpcId: !Ref PRODVPC
       AvailabilityZone: !Select [ 1, !GetAZs '' ]
-      CidrBlock: 10.22.80.0/20
+      CidrBlock: 10.42.80.0/20
       Tags:
         - Key: Name
           Value: sn-siem-B
@@ -466,16 +466,16 @@ Resources:
     Properties:
       VpcId: !Ref PRODVPC
       AvailabilityZone: !Select [ 2, !GetAZs '' ]
-      CidrBlock: 10.22.144.0/20
+      CidrBlock: 10.42.144.0/20
       Tags:
         - Key: Name
           Value: sn-siem-C
-  DevSubnetNFTAA:
+  ProdSubnetNFTAA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref PRODVPC
       AvailabilityZone: !Select [ 0, !GetAZs '' ]
-      CidrBlock: 10.22.32.0/20
+      CidrBlock: 10.42.32.0/20
       Tags:
         - Key: Name
           Value: sn-nfta-A
@@ -484,7 +484,7 @@ Resources:
     Properties:
       VpcId: !Ref PRODVPC
       AvailabilityZone: !Select [ 1, !GetAZs '' ]
-      CidrBlock: 10.22.96.0/20
+      CidrBlock: 10.42.96.0/20
       Tags:
         - Key: Name
           Value: sn-nfta-B
@@ -493,7 +493,7 @@ Resources:
     Properties:
       VpcId: !Ref PRODVPC
       AvailabilityZone: !Select [ 2, !GetAZs '' ]
-      CidrBlock: 10.22.160.0/20
+      CidrBlock: 10.42.160.0/20
       Tags:
         - Key: Name
           Value: sn-nfta-C
@@ -502,17 +502,17 @@ Resources:
     Properties:
       VpcId: !Ref PRODVPC
       AvailabilityZone: !Select [ 0, !GetAZs '' ]
-      CidrBlock: 10.22.48.0/25
+      CidrBlock: 10.42.48.0/25
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
           Value: sn-dmz-A
-  DevSubnetDMZB:
+  ProdSubnetDMZB:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref PRODVPC
       AvailabilityZone: !Select [ 1, !GetAZs '' ]
-      CidrBlock: 10.22.112.0/25
+      CidrBlock: 10.42.112.0/25
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
@@ -522,7 +522,7 @@ Resources:
     Properties:
       VpcId: !Ref PRODVPC
       AvailabilityZone: !Select [ 2, !GetAZs '' ]
-      CidrBlock: 10.22.176.0/25
+      CidrBlock: 10.42.176.0/25
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name

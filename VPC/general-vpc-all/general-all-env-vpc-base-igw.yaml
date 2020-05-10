@@ -1,0 +1,530 @@
+
+AWSTemplateFormatVersion: 2010-09-09
+Description:  Cloudformation template to create the DEV, QA and PROD VPCs and 12 subnets for each ENV (total 36) in THREE AZ in GENERAL Account. The DMZ subnets tend to be a public which needs to be configured. 
+Metadata:
+  LICENSE: Apache License Version 2.0
+Resources:
+  #DevVPC
+  DEVVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.20.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: dev-vpc
+  # QaVPC
+  QAVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.21.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: qa-vpc
+  # ProdVPC
+  PRODVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.22.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: prod-vpc
+
+  # Dev Internet Gateway
+  InternetGatewayDevVPC:
+    Type: 'AWS::EC2::InternetGateway'
+    Properties:
+      Tags:
+      - Key: Name
+        Value: k-vpc-dev-igw
+  # QA Internet Gateway
+  InternetGatewayQAVPC:
+    Type: 'AWS::EC2::InternetGateway'
+    Properties:
+      Tags:
+      - Key: Name
+        Value: k-vpc-qa-igw
+  # Prod Internet Gateway
+  InternetGatewayProdVPC:
+    Type: 'AWS::EC2::InternetGateway'
+    Properties:
+      Tags:
+      - Key: Name
+        Value: k-vpc-prod-igw
+
+  # Dev IGW Attachment
+  DevInternetGatewayAttachment:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      VpcId: !Ref DEVVPC
+      InternetGatewayId: !Ref InternetGatewayDevVPC
+  # QA IGW Attachment
+  QAInternetGatewayAttachment:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      VpcId: !Ref QAVPC
+      InternetGatewayId: !Ref InternetGatewayQAVPC
+  # Prod IGW Attachment
+  ProdInternetGatewayAttachment:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      VpcId: !Ref PRODVPC
+      InternetGatewayId: !Ref InternetGatewayProdVPC
+  
+  # Dev Route Table
+  DevRouteTableDMZ: 
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref DEVVPC
+      Tags:
+      - Key: Name
+        Value: k-vpc-dev-rt-dmz
+  # QA Route Table
+  QARouteTableDMZ: 
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref QAVPC
+      Tags:
+      - Key: Name
+        Value: k-vpc-qa-rt-dmz
+  # Prod Route Table
+  ProdRouteTableDMZ: 
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref PRODVPC
+      Tags:
+      - Key: Name
+        Value: k-vpc-prod-rt-dmz
+  
+  DevRouteTableDMZDefaultIPv4: 
+    Type: 'AWS::EC2::Route'
+    DependsOn: DevInternetGatewayAttachment
+    Properties:
+      RouteTableId:
+        Ref: DevRouteTableDMZ
+      DestinationCidrBlock: '0.0.0.0/0'
+      GatewayId:
+        Ref: InternetGatewayDevVPC
+  QARouteTableDMZDefaultIPv4: 
+    Type: 'AWS::EC2::Route'
+    DependsOn: QAInternetGatewayAttachment
+    Properties:
+      RouteTableId:
+        Ref: QARouteTableDMZ
+      DestinationCidrBlock: '0.0.0.0/0'
+      GatewayId:
+        Ref: InternetGatewayQAVPC
+  ProdRouteTableDMZDefaultIPv4: 
+    Type: 'AWS::EC2::Route'
+    DependsOn: ProdInternetGatewayAttachment
+    Properties:
+      RouteTableId:
+        Ref: ProdRouteTableDMZ
+      DestinationCidrBlock: '0.0.0.0/0'
+      GatewayId:
+        Ref: InternetGatewayProdVPC
+  
+  # Dev Route Table Associate
+  DevRouteTableAssociationDMZA:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref DevSubnetDMZA
+      RouteTableId:
+        Ref: DevRouteTableDMZ
+  DevRouteTableAssociationDMZB:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref DevSubnetDMZB
+      RouteTableId:
+        Ref: DevRouteTableDMZ
+  DevRouteTableAssociationDMZC:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref DevSubnetDMZC
+      RouteTableId:
+        Ref: DevRouteTableDMZ
+
+  # QA Route Table Associate
+  QARouteTableAssociationDMZA:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref QASubnetDMZA
+      RouteTableId:
+        Ref: QARouteTableDMZ
+  QARouteTableAssociationDMZB:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref QASubnetDMZB
+      RouteTableId:
+        Ref: QARouteTableDMZ
+  QARouteTableAssociationDMZC:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref QASubnetDMZC
+      RouteTableId:
+        Ref: QARouteTableDMZ
+  
+  # Prod Route Table Associate
+  ProdRouteTableAssociationDMZA:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref ProdSubnetDMZA
+      RouteTableId:
+        Ref: ProdRouteTableDMZ
+  ProdRouteTableAssociationDMZB:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref ProdSubnetDMZB
+      RouteTableId:
+        Ref: ProdRouteTableDMZ
+  ProdRouteTableAssociationDMZC:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref ProdSubnetDMZC
+      RouteTableId:
+        Ref: ProdRouteTableDMZ
+
+  # DEV Subnets
+  DevSubnetFIMA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DEVVPC
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      CidrBlock: 10.20.0.0/20
+      Tags:
+        - Key: Name
+          Value: sn-fim-A
+  DevSubnetFIMB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DEVVPC
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+      CidrBlock: 10.20.64.0/20
+      Tags:
+        - Key: Name
+          Value: sn-fim-B
+  DevSubnetFIMC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DEVVPC
+      AvailabilityZone: !Select [ 2, !GetAZs '' ]
+      CidrBlock: 10.20.128.0/20
+      Tags:
+        - Key: Name
+          Value: sn-fim-C
+  DevSubnetSIEMA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DEVVPC
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      CidrBlock: 10.20.16.0/20
+      Tags:
+        - Key: Name
+          Value: sn-siem-A
+  DevSubnetSIEMB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DEVVPC
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+      CidrBlock: 10.20.80.0/20
+      Tags:
+        - Key: Name
+          Value: sn-siem-B
+  DevSubnetSIEMC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DEVVPC
+      AvailabilityZone: !Select [ 2, !GetAZs '' ]
+      CidrBlock: 10.20.144.0/20
+      Tags:
+        - Key: Name
+          Value: sn-siem-C
+  DevSubnetNFTAA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DEVVPC
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      CidrBlock: 10.20.32.0/20
+      Tags:
+        - Key: Name
+          Value: sn-nfta-A
+  DevSubnetNFTAB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DEVVPC
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+      CidrBlock: 10.20.96.0/20
+      Tags:
+        - Key: Name
+          Value: sn-nfta-B
+  DevSubnetNFTAC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DEVVPC
+      AvailabilityZone: !Select [ 2, !GetAZs '' ]
+      CidrBlock: 10.20.160.0/20
+      Tags:
+        - Key: Name
+          Value: sn-nfta-C
+  DevSubnetDMZA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DEVVPC
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      CidrBlock: 10.20.48.0/25
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: sn-dmz-A
+  DevSubnetDMZB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DEVVPC
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+      CidrBlock: 10.20.112.0/25
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: sn-dmz-B
+  DevSubnetDMZC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DEVVPC
+      AvailabilityZone: !Select [ 2, !GetAZs '' ]
+      CidrBlock: 10.20.176.0/25
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: sn-dmz-C
+  
+  # QA Subnets
+  QASubnetFIMA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref QAVPC
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      CidrBlock: 10.21.0.0/20
+      Tags:
+        - Key: Name
+          Value: sn-fim-A
+  QASubnetFIMB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref QAVPC
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+      CidrBlock: 10.21.64.0/20
+      Tags:
+        - Key: Name
+          Value: sn-fim-B
+  QASubnetFIMC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref QAVPC
+      AvailabilityZone: !Select [ 2, !GetAZs '' ]
+      CidrBlock: 10.21.128.0/20
+      Tags:
+        - Key: Name
+          Value: sn-fim-C
+  QASubnetSIEMA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref QAVPC
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      CidrBlock: 10.21.16.0/20
+      Tags:
+        - Key: Name
+          Value: sn-siem-A
+  QASubnetSIEMB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref QAVPC
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+      CidrBlock: 10.21.80.0/20
+      Tags:
+        - Key: Name
+          Value: sn-siem-B
+  QASubnetSIEMC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref QAVPC
+      AvailabilityZone: !Select [ 2, !GetAZs '' ]
+      CidrBlock: 10.21.144.0/20
+      Tags:
+        - Key: Name
+          Value: sn-siem-C
+  QASubnetNFTAA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref QAVPC
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      CidrBlock: 10.21.32.0/20
+      Tags:
+        - Key: Name
+          Value: sn-nfta-A
+  QASubnetNFTAB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref QAVPC
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+      CidrBlock: 10.21.96.0/20
+      Tags:
+        - Key: Name
+          Value: sn-nfta-B
+  QASubnetNFTAC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref QAVPC
+      AvailabilityZone: !Select [ 2, !GetAZs '' ]
+      CidrBlock: 10.21.160.0/20
+      Tags:
+        - Key: Name
+          Value: sn-nfta-C
+  QASubnetDMZA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref QAVPC
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      CidrBlock: 10.21.48.0/25
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: sn-dmz-A
+  QASubnetDMZB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref QAVPC
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+      CidrBlock: 10.21.112.0/25
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: sn-dmz-B
+  QASubnetDMZC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref QAVPC
+      AvailabilityZone: !Select [ 2, !GetAZs '' ]
+      CidrBlock: 10.21.176.0/25
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: sn-dmz-C
+
+  # PROD Subnets
+  ProdSubnetFIMA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref PRODVPC
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      CidrBlock: 10.22.0.0/20
+      Tags:
+        - Key: Name
+          Value: sn-fim-A
+  ProdSubnetFIMB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref PRODVPC
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+      CidrBlock: 10.22.64.0/20
+      Tags:
+        - Key: Name
+          Value: sn-fim-B
+  ProdSubnetFIMC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref PRODVPC
+      AvailabilityZone: !Select [ 2, !GetAZs '' ]
+      CidrBlock: 10.22.128.0/20
+      Tags:
+        - Key: Name
+          Value: sn-fim-C
+  ProdSubnetSIEMA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref PRODVPC
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      CidrBlock: 10.22.16.0/20
+      Tags:
+        - Key: Name
+          Value: sn-siem-A
+  ProdSubnetSIEMB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref PRODVPC
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+      CidrBlock: 10.22.80.0/20
+      Tags:
+        - Key: Name
+          Value: sn-siem-B
+  ProdSubnetSIEMC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref PRODVPC
+      AvailabilityZone: !Select [ 2, !GetAZs '' ]
+      CidrBlock: 10.22.144.0/20
+      Tags:
+        - Key: Name
+          Value: sn-siem-C
+  ProdSubnetNFTAA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref PRODVPC
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      CidrBlock: 10.22.32.0/20
+      Tags:
+        - Key: Name
+          Value: sn-nfta-A
+  ProdSubnetNFTAB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref PRODVPC
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+      CidrBlock: 10.22.96.0/20
+      Tags:
+        - Key: Name
+          Value: sn-nfta-B
+  ProdSubnetNFTAC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref PRODVPC
+      AvailabilityZone: !Select [ 2, !GetAZs '' ]
+      CidrBlock: 10.22.160.0/20
+      Tags:
+        - Key: Name
+          Value: sn-nfta-C
+  ProdSubnetDMZA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref PRODVPC
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      CidrBlock: 10.22.48.0/25
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: sn-dmz-A
+  ProdSubnetDMZB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref PRODVPC
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+      CidrBlock: 10.22.112.0/25
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: sn-dmz-B
+  ProdSubnetDMZC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref PRODVPC
+      AvailabilityZone: !Select [ 2, !GetAZs '' ]
+      CidrBlock: 10.22.176.0/25
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: sn-dmz-C
+          
