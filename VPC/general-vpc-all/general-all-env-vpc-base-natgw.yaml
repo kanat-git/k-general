@@ -231,69 +231,69 @@ Resources:
     Type: 'AWS::EC2::NatGateway'
     Properties:
       AllocationId: !GetAtt DevEIPA.AllocationId
-      SubnetId: !ImportValue DevSubnetDMZA
+      SubnetId: !Ref DevSubnetDMZA
   DevNatGatewayB:
     Type: 'AWS::EC2::NatGateway'
     Properties:
       AllocationId: !GetAtt DevEIPB.AllocationId
-      SubnetId: !ImportValue DevSubnetDMZB
+      SubnetId: !Ref DevSubnetDMZB
   DevNatGatewayC:
     Type: 'AWS::EC2::NatGateway'
     Properties:
       AllocationId: !GetAtt DevEIPC.AllocationId
-      SubnetId: !ImportValue DevSubnetDMZC
+      SubnetId: !Ref DevSubnetDMZC
   # Qa NatGateway
   QaNatGatewayA:
     Type: 'AWS::EC2::NatGateway'
     Properties:
       AllocationId: !GetAtt QaEIPA.AllocationId
-      SubnetId: !ImportValue QaSubnetDMZA
+      SubnetId: !Ref QaSubnetDMZA
   QaNatGatewayB:
     Type: 'AWS::EC2::NatGateway'
     Properties:
       AllocationId: !GetAtt QaEIPB.AllocationId
-      SubnetId: !ImportValue QaSubnetDMZB
+      SubnetId: !Ref QaSubnetDMZB
   QaNatGatewayC:
     Type: 'AWS::EC2::NatGateway'
     Properties:
       AllocationId: !GetAtt QaEIPC.AllocationId
-      SubnetId: !ImportValue QaSubnetDMZC
+      SubnetId: !Ref QaSubnetDMZC
   # Prod NatGateway
   ProdNatGatewayA:
     Type: 'AWS::EC2::NatGateway'
     Properties:
       AllocationId: !GetAtt ProdEIPA.AllocationId
-      SubnetId: !ImportValue ProdSubnetDMZA
+      SubnetId: !Ref ProdSubnetDMZA
   ProdNatGatewayB:
     Type: 'AWS::EC2::NatGateway'
     Properties:
       AllocationId: !GetAtt ProdEIPB.AllocationId
-      SubnetId: !ImportValue ProdSubnetDMZB
+      SubnetId: !Ref ProdSubnetDMZB
   ProdNatGatewayC:
     Type: 'AWS::EC2::NatGateway'
     Properties:
       AllocationId: !GetAtt ProdEIPC.AllocationId
-      SubnetId: !ImportValue ProdSubnetDMZC
+      SubnetId: !Ref ProdSubnetDMZC
 
   # Dev Private Route Table (ExtraHop maybe which needs outbound internet to ExtraHob Cloud)
   DevRouteTableFIMA: 
     Type: 'AWS::EC2::RouteTable'
     Properties:
-      VpcId: !ImportValue DevVPC
+      VpcId: !Ref DevVPC
       Tags:
       - Key: Name
         Value: g-vpc-dev-rt-fima
   DevRouteTableFIMB: 
     Type: 'AWS::EC2::RouteTable'
     Properties:
-      VpcId: !ImportValue DevVPC
+      VpcId: !Ref DevVPC
       Tags:
       - Key: Name
         Value: g-vpc-dev-rt-fimb
   DevRouteTableFIMC: 
     Type: 'AWS::EC2::RouteTable'
     Properties:
-      VpcId: !ImportValue DevVPC
+      VpcId: !Ref DevVPC
       Tags:
       - Key: Name
         Value: g-vpc-dev-rt-fimc
@@ -301,21 +301,21 @@ Resources:
   QaRouteTableFIMA: 
     Type: 'AWS::EC2::RouteTable'
     Properties:
-      VpcId: !ImportValue QaVPC
+      VpcId: !Ref QaVPC
       Tags:
       - Key: Name
         Value: g-vpc-qa-rt-fima
   QaRouteTableFIMB: 
     Type: 'AWS::EC2::RouteTable'
     Properties:
-      VpcId: !ImportValue QaVPC
+      VpcId: !Ref QaVPC
       Tags:
       - Key: Name
         Value: g-vpc-qa-rt-fimb
   QaRouteTableFIMC: 
     Type: 'AWS::EC2::RouteTable'
     Properties:
-      VpcId: !ImportValue QaVPC
+      VpcId: !Ref QaVPC
       Tags:
       - Key: Name
         Value: g-vpc-qa-rt-fimc
@@ -323,21 +323,21 @@ Resources:
   ProdRouteTableFIMA: 
     Type: 'AWS::EC2::RouteTable'
     Properties:
-      VpcId: !ImportValue ProdVPC
+      VpcId: !Ref ProdVPC
       Tags:
       - Key: Name
         Value: g-vpc-prod-rt-fima
   ProdRouteTableFIMB: 
     Type: 'AWS::EC2::RouteTable'
     Properties:
-      VpcId: !ImportValue ProdVPC
+      VpcId: !Ref ProdVPC
       Tags:
       - Key: Name
         Value: g-vpc-prod-rt-fimb
   ProdRouteTableFIMC: 
     Type: 'AWS::EC2::RouteTable'
     Properties:
-      VpcId: !ImportValue ProdVPC
+      VpcId: !Ref ProdVPC
       Tags:
       - Key: Name
         Value: g-vpc-prod-rt-fimc
@@ -404,49 +404,49 @@ Resources:
   DevRouteTableAssociationFIMA:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue DevSubnetFIMA
+      SubnetId: !Ref DevSubnetFIMA
       RouteTableId: !Ref DevRouteTableFIMA
   DevRouteTableAssociationFIMB:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue DevSubnetFIMB
+      SubnetId: !Ref DevSubnetFIMB
       RouteTableId: !Ref DevRouteTableFIMB
   DevRouteTableAssociationFIMC:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue DevSubnetFIMC
+      SubnetId: !Ref DevSubnetFIMC
       RouteTableId: !Ref DevRouteTableFIMC
   # Qa Route Table Association to subnet (FIM where ExtraHop)
   QaRouteTableAssociationFIMA:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue QaSubnetFIMA
+      SubnetId: !Ref QaSubnetFIMA
       RouteTableId: !Ref QaRouteTableFIMA
   QaRouteTableAssociationFIMB:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue QaSubnetFIMB
+      SubnetId: !Ref QaSubnetFIMB
       RouteTableId: !Ref QaRouteTableFIMB
   QaRouteTableAssociationFIMC:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue QaSubnetFIMC
+      SubnetId: !Ref QaSubnetFIMC
       RouteTableId: !Ref QaRouteTableFIMC
   # Prod Route Table Association to subnet (FIM where ExtraHop)
   ProdRouteTableAssociationFIMA:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue ProdSubnetFIMA
+      SubnetId: !Ref ProdSubnetFIMA
       RouteTableId: !Ref ProdRouteTableFIMA
   ProdRouteTableAssociationFIMB:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue ProdSubnetFIMB
+      SubnetId: !Ref ProdSubnetFIMB
       RouteTableId: !Ref ProdRouteTableFIMB
   ProdRouteTableAssociationFIMC:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue ProdSubnetFIMC
+      SubnetId: !Ref ProdSubnetFIMC
       RouteTableId: !Ref ProdRouteTableFIMC
 
   # Dev Subnets
