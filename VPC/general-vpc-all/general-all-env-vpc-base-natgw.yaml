@@ -776,13 +776,13 @@ Resources:
         - Key: Name
           Value: sn-dmz-B
   ProdSubnetDMZC:
-  Type: AWS::EC2::Subnet
-  Properties:
-    VpcId: !Ref ProdVPC
-    AvailabilityZone: !Select [ 2, !GetAZs '' ]
-    CidrBlock: 10.22.176.0/25
-    MapPublicIpOnLaunch: true
-    Tags:
-      - Key: Name
-        Value: sn-dmz-C
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref ProdVPC
+      AvailabilityZone: !Select [ 2, !GetAZs '' ]
+      CidrBlock: 10.22.176.0/25
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: sn-dmz-C
         
